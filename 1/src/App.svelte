@@ -3,7 +3,7 @@ import {topArticles} from './topArticles';
 import TabUI from './components/TabUI.svelte';
 </script>
 
-<TabUI data={$topArticles}/>
+<TabUI data={topArticles}/>
 
 <style>
 :global(body) {

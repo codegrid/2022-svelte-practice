@@ -1,10 +1,15 @@
 <script>
 export let data;
 
+let articleList;
 let activeIndex = 0;
 let focusedIndex;
 const tabsLastIndex = data.length - 1;
 const tabs = [];
+
+data.subscribe((list) => {
+  articleList = list;
+});
 
 function onClickTab(index) {
   if (activeIndex === index) {
@@ -64,7 +69,7 @@ function focusPreviousTab() {
       role="tablist"
       aria-label="おすすめ記事リンク"
   >
-    {#each data as {id, title}, i}
+    {#each articleList as {id, title}, i}
       {@const onClick = () => onClickTab(i)}
       {@const onFocus = () => onFocusTab(i)}
       <li class="TabUI-item"
@@ -88,7 +93,7 @@ function focusPreviousTab() {
     {/each}
   </ul>
   <div class="TabUI-body">
-    {#each data as {id, title, content}, i}
+    {#each articleList as {id, title, content}, i}
       <div class="TabUI-tabpanel"
            id="panel-{id}"
            role="tabpanel"
