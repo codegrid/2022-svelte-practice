@@ -1,38 +1,37 @@
 <script>
-let data;
-export {data};
+export let data;
 
 let activeIndex = 0;
 let focusedIndex;
 const tabsLastIndex = data.length - 1;
-const tabs = []
+const tabs = [];
 
 function onClickTab(index) {
   if (activeIndex === index) {
-    return
+    return;
   }
-  activeIndex = index
+  activeIndex = index;
 }
 
-function onFocus(index) {
-  focusedIndex = index
+function onFocusTab(index) {
+  focusedIndex = index;
 }
 
 function onKeydownTab(event) {
   const key = event.key;
   switch (key) {
-    case "ArrowRight":
-    case "Right":
+    case 'ArrowRight':
+    case 'Right':
       focusNextTab();
       break;
-    case "ArrowLeft":
-    case "Left":
+    case 'ArrowLeft':
+    case 'Left':
       focusPreviousTab();
       break;
-    case "Home":
+    case 'Home':
       focusTab(0);
       break;
-    case "End":
+    case 'End':
       focusTab(tabsLastIndex);
       break;
   }
@@ -66,6 +65,8 @@ function focusPreviousTab() {
       aria-label="おすすめ記事リンク"
   >
     {#each data as {id, title}, i}
+      {@const onClick = () => onClickTab(i)}
+      {@const onFocus = () => onFocusTab(i)}
       <li class="TabUI-item"
           role="presentation"
       >
@@ -77,8 +78,8 @@ function focusPreviousTab() {
                 aria-selected={activeIndex === i ? 'true' : 'false'}
                 tabindex={activeIndex === i ? 0 : -1}
                 bind:this={tabs[i]}
-                on:click={onClickTab.bind(null, i)}
-                on:focus={onFocus.bind(null, i)}
+                on:click={onClick}
+                on:focus={onFocus}
                 on:keydown={onKeydownTab}
         >
           {title}
