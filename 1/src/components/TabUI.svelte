@@ -1,15 +1,10 @@
 <script>
 export let data;
 
-let articleList;
 let activeIndex = 0;
 let focusedIndex;
-const tabsLastIndex = data.length - 1;
+const tabsLastIndex = $data.length - 1;
 const tabs = [];
-
-data.subscribe((list) => {
-  articleList = list;
-});
 
 function onClickTab(index) {
   if (activeIndex === index) {
@@ -61,7 +56,6 @@ function focusPreviousTab() {
   }
   focusTab(nextIndex);
 }
-
 </script>
 
 <div class="TabUI">
@@ -69,7 +63,8 @@ function focusPreviousTab() {
       role="tablist"
       aria-label="おすすめ記事リンク"
   >
-    {#each articleList as {id, title}, i}
+    {#each $data as {id, title}, i}
+      {@const currentActive = activeIndex === i}
       {@const onClick = () => onClickTab(i)}
       {@const onFocus = () => onFocusTab(i)}
       <li class="TabUI-item"
@@ -80,8 +75,8 @@ function focusPreviousTab() {
                 id="tab-{id}"
                 role="tab"
                 aria-controls="panel-{id}"
-                aria-selected={activeIndex === i ? 'true' : 'false'}
-                tabindex={activeIndex === i ? 0 : -1}
+                aria-selected={currentActive ? 'true' : 'false'}
+                tabindex={currentActive ? 0 : -1}
                 bind:this={tabs[i]}
                 on:click={onClick}
                 on:focus={onFocus}
@@ -93,12 +88,13 @@ function focusPreviousTab() {
     {/each}
   </ul>
   <div class="TabUI-body">
-    {#each articleList as {id, title, content}, i}
+    {#each $data as {id, title, content}, i}
+      {@const currentActive = activeIndex === i}
       <div class="TabUI-tabpanel"
            id="panel-{id}"
            role="tabpanel"
            aria-labelledby="tab-{id}"
-           aria-hidden={activeIndex === i ? 'false' : 'true'}
+           aria-hidden={currentActive ? 'false' : 'true'}
            tabindex="0"
       >
         <ol class="ArticleList">
