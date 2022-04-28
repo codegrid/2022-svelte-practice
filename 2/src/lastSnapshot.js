@@ -12,7 +12,6 @@ function createStore(data) {
 
   return {
     subscribe,
-    set,
     fetchSnapshot(targetUrl) {
       const url = `https://archive.org/wayback/available?url=${targetUrl}`;
       const data = fetch(url).then(response => response.json()).catch(error => {
